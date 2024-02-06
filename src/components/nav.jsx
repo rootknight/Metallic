@@ -19,18 +19,20 @@ function Nav() {
         ) : localAppearance === "banana" ? (
           <BananaSVG />
         ) : localAppearance === "hub" ? (
-          <div className="hub">Metal<div className="hubend">lic</div></div>
+          <div className="hub">
+            Metal<div className="hubend">lic</div>
+          </div>
         ) : (
           <LogoSVG fill="var(--highlight)" />
         )}
       </Link>
       <div className="navitems">
-        <Link className="navitem" to="/1.html">
+        {/* <Link className="navitem" to="/1.html">
           <AppsIcon />
         </Link>
         <Link className="navitem" to="/2.html">
           <VideogameAssetIcon />
-        </Link>
+        </Link> */}
         <Link className="navitem" to="/3/1.html">
           <SettingsIcon />
         </Link>

@@ -7,10 +7,12 @@ import Proxy from "../components/proxy.jsx";
 import BareClient from "@tomphttp/bare-client";
 import { bareServerURL } from "../consts.jsx";
 import { getLink } from "../util.jsx";
+import gitems from "../assets/apps.json";
+import globeSVG from "../assets/globe.svg";
 import { useLocalAppearance } from "../settings.jsx";
-import { useTranslation } from 'react-i18next';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { Notifications } from "../components/notifications.jsx"
+import { useTranslation } from "react-i18next";
+import { renderToStaticMarkup } from "react-dom/server";
+import { Notifications } from "../components/notifications.jsx";
 
 function Home() {
   const { t } = useTranslation("home");
@@ -26,8 +28,26 @@ function Home() {
   var suggestionsChildren = React.useRef();
 
   var omnibox = React.useRef();
-  
- const [localAppearance, setLocalAppearance] = useLocalAppearance();
+
+  const [localAppearance, setLocalAppearance] = useLocalAppearance();
+
+  function goApp(config) {
+    try {
+      proxy.current.open({
+        title: config.name,
+        icon: config.icon,
+        url: getLink(config.url),
+        keepicon: true,
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err.toString());
+    }
+  }
+
+  const gitemssearched = gitems.filter((item) => {
+    return item.name.toLowerCase();
+  });
 
   function showOmnibox() {
     if (!omniboxcontainer.current) return;
@@ -61,7 +81,7 @@ function Home() {
     }
     results = results.map((result) => {
       return renderToStaticMarkup(<Obfuscate>{result}</Obfuscate>);
-    })
+    });
 
     setSuggestions(results);
     if (suggestionsChildren.current.children.length === 0) {
@@ -82,29 +102,34 @@ function Home() {
 
   async function searchType(e) {
     if (localStorage.getItem("hub") !== "true" && e.keyCode === 13) {
-      var appearance = localAppearance || ""
+      var appearance = localAppearance || "";
       try {
-        if (new URL(e.target.value).hostname === window.atob("cG9ybmh1Yi5jb20=")) {
+        if (
+          new URL(e.target.value).hostname === window.atob("cG9ybmh1Yi5jb20=")
+        ) {
           Notifications.create({
-            text: "Unlocked Hub theme"
-          })
-          setLocalAppearance("hub")
-          localStorage.setItem("hub", "true")
+            text: "Unlocked Hub theme",
+          });
+          setLocalAppearance("hub");
+          localStorage.setItem("hub", "true");
           return appearance;
         }
       } catch {}
       try {
-        if (new URL("https://" + e.target.value).hostname === window.atob("cG9ybmh1Yi5jb20=")) {
+        if (
+          new URL("https://" + e.target.value).hostname ===
+          window.atob("cG9ybmh1Yi5jb20=")
+        ) {
           Notifications.create({
-            text: "Unlocked Hub theme"
-          })
-          setLocalAppearance("hub")
-          localStorage.setItem("hub", "true")
+            text: "Unlocked Hub theme",
+          });
+          setLocalAppearance("hub");
+          localStorage.setItem("hub", "true");
           return appearance;
         }
       } catch {}
     }
-    
+
     if (e.keyCode === 13) return submit(e.target.value);
 
     if (e.target.value && e.target.value !== "") {
@@ -179,7 +204,29 @@ function Home() {
           ))}
         </div>
       </div>
-      <Footer/>
+      <div className="gitems">
+        {gitemssearched.map((item, i) => {
+          return (
+            <div
+              onClick={() => goApp(item)}
+              style={{
+                backgroundImage: `url(${JSON.stringify(
+                  item.icon
+                )}), url(${JSON.stringify(globeSVG)})`,
+                backgroundSize: "cover",
+                backgroundPosition: "0% 0%",
+              }}
+              className="gitem"
+              key={i}
+            >
+              <div className="gtext">
+                <Obfuscate>{item.name}</Obfuscate>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {/* <Footer/> */}
     </>
   );
 }

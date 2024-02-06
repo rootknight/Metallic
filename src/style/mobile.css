@@ -28,16 +28,18 @@
   }
 
   .gitems {
-    grid-template-columns: repeat(auto-fill, 120px);
+    padding: 5px;
+    max-width: calc(100%-32px);
+    grid-template-columns: repeat(auto-fill, 50px);
   }
 
   .gitem {
-    height: 120px;
-    width: 120px;
+    height: 64px;
+    width: 64px;
   }
 
   .gtext {
-    width: 120px;
+    width: 64px;
   }
 
   .settingssidetitle {

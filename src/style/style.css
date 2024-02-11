@@ -60,6 +60,7 @@ a {
 
 .omniboxcontainer {
   display: flex;
+  position: relative;
   justify-content: center;
   flex-wrap: wrap;
   flex-direction: column;
@@ -295,6 +296,10 @@ a {
   z-index: 1;
   max-width: calc(100vh - 10px);
   display: none;
+  position: absolute;
+  top: 44px;
+  left: 50%;
+  transform: translateX(-51.7%);
 }
 
 .sugg {

@@ -77,5 +77,6 @@
   .suggestions {
     margin: 0 16px;
     max-width: calc(100% - 32px);
+    transform: translateX(-53.7%)
   }
 }

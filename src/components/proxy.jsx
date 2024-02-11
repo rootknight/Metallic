@@ -1,8 +1,13 @@
 import { bareServerURL } from "../consts.jsx";
 import { useLocalWindow } from "../settings.jsx";
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
+import Snackbar from '@mui/material/Snackbar';
 import PublicIcon from "@mui/icons-material/Public";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
+import LinkIcon from '@mui/icons-material/Link';
+import AddIcon from '@mui/icons-material/Add';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import RefreshIcon from "@mui/icons-material/Refresh";
 import CloseIcon from "@mui/icons-material/Close";
 import { getWindowLocation } from "../util.jsx";
@@ -53,6 +58,14 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
   var bare = React.useMemo(() => new BareClient(bareServerURL), []);
   var web = React.createRef();
   var [config, setConfig] = React.useState();
+  const [open, setOpen] = React.useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
   var [localWindow] = useLocalWindow();
   var [searchParams, setSearchParams] = useSearchParams();
 
@@ -118,10 +131,63 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
         <div
           className="controlsButton"
           onClick={() => {
-            web.current.requestFullscreen();
+            try {
+              navigator.clipboard.writeText(config.url)
+                .then(function () {
+                  setOpen(true);
+                })
+            } catch (err) {
+              //
+            }
           }}
         >
-          <FullscreenIcon />
+          <LinkIcon />
+          <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          open={open}
+            autoHideDuration={3000}
+            onClose={handleClose}
+            message="链接已复制到剪贴板"
+          />
+        </div>
+        <div
+          className="controlsButton"
+          onClick={() => {
+            try {
+              web.current.contentWindow.window.open("/","_blank");
+            } catch (err) {
+              //
+            }
+          }}
+        >
+          <AddIcon />
+        </div>
+        <div
+          className="controlsButton"
+          onClick={() => {
+            try {
+              web.current.contentWindow.history.back();
+            } catch (err) {
+              //
+            }
+          }}
+        >
+          <KeyboardArrowLeftIcon />
+        </div>
+        <div
+          className="controlsButton"
+          onClick={() => {
+            try {
+              web.current.contentWindow.history.forward();
+            } catch (err) {
+              //
+            }
+          }}
+        >
+          <KeyboardArrowRightIcon />
         </div>
         <div
           className="controlsButton"
@@ -135,10 +201,19 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
         >
           <RefreshIcon />
         </div>
+        <div
+          className="controlsButton"
+          onClick={() => {
+            web.current.requestFullscreen();
+          }}
+        >
+          <FullscreenIcon />
+        </div>
         <div className="controlsButton" onClick={close}>
           <CloseIcon />
         </div>
       </div>
+      
       <iframe
         onLoad={async () => {
           var updatedConfig = {

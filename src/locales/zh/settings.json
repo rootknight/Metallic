@@ -3,16 +3,16 @@
     "sidebar": {
       "search": "搜索",
       "tab": "标签",
-      "appearance": "外貌",
-      "ui": "用户界面"
+      "appearance": "外观",
+      "ui": "界面"
     },
     "search": {
-      "proxy": "代理人",
+      "proxy": "代理方式",
       "engine": "搜索引擎"
     },
     "tab": {
-      "cloak": "标签斗篷",
-      "custom": "风俗",
+      "cloak": "标签图标",
+      "custom": "自定义",
       "urlPlaceholder": "输入网址",
       "titlePlaceholder": "输入标题",
       "iconPlaceholder": "输入图标 URL"
@@ -23,8 +23,8 @@
       "background": "背景"
     },
     "ui": {
-      "window": "窗户",
+      "window": "窗口样式",
       "controls": "控件",
-      "rounding": "四舍五入"
+      "rounding": "圆角"
     }
 }

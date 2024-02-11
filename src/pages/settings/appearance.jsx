@@ -1,9 +1,13 @@
 import clsx from "clsx";
 import React from "react";
 import Obfuscate from "../../components/obfuscate.jsx";
-import { useLocalLanguage, useLocalAppearance, useLocalBackground } from "../../settings.jsx";
+import {
+  useLocalLanguage,
+  useLocalAppearance,
+  useLocalBackground,
+} from "../../settings.jsx";
 import { setLanguage } from "../../i18n.jsx";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 function LanguageOption({ type, children }) {
   const [localLanguage, setLocalLanguage] = useLocalLanguage();
@@ -11,13 +15,10 @@ function LanguageOption({ type, children }) {
   return (
     <div
       onClick={() => {
-        setLanguage(type)
-        setLocalLanguage(type)
+        setLanguage(type);
+        setLocalLanguage(type);
       }}
-      className={clsx(
-        "optionchoose",
-        type === localLanguage && "chooseactive"
-      )}
+      className={clsx("optionchoose", type === localLanguage && "chooseactive")}
     >
       {children}
     </div>
@@ -69,20 +70,20 @@ function Appearance() {
         <Obfuscate>{t("appearance.language")}</Obfuscate>
       </div>
       <div className="chooseoption">
+        <LanguageOption type="zh">
+          <Obfuscate>中文</Obfuscate>
+        </LanguageOption>
         <LanguageOption type="en">
           <Obfuscate>English</Obfuscate>
         </LanguageOption>
         <LanguageOption type="es">
-          <Obfuscate>Spanish</Obfuscate>
+          <Obfuscate>Español</Obfuscate>
         </LanguageOption>
         <LanguageOption type="fr">
-          <Obfuscate>French</Obfuscate>
-        </LanguageOption>
-        <LanguageOption type="zh">
-          <Obfuscate>Chinese</Obfuscate>
+          <Obfuscate>Français</Obfuscate>
         </LanguageOption>
         <LanguageOption type="de">
-          <Obfuscate>German</Obfuscate>
+          <Obfuscate>Deutsch</Obfuscate>
         </LanguageOption>
       </div>
       <div className="optiontitle">
@@ -185,18 +186,20 @@ function Appearance() {
         <ThemeOption type="tsunami">
           <Obfuscate>Tsunami</Obfuscate>
         </ThemeOption>
-        { localStorage.getItem("echo") === "true"  ? (
-        <ThemeOption type="echo">
-          <Obfuscate>3kh0</Obfuscate>
-        </ThemeOption>
-        ) : ""
-        }
-        { localStorage.getItem("hub") === "true"  ? (
-        <ThemeOption type="hub">
-          <Obfuscate>Hub</Obfuscate>
-        </ThemeOption>
-        ) : ""
-        }
+        {localStorage.getItem("echo") === "true" ? (
+          <ThemeOption type="echo">
+            <Obfuscate>3kh0</Obfuscate>
+          </ThemeOption>
+        ) : (
+          ""
+        )}
+        {localStorage.getItem("hub") === "true" ? (
+          <ThemeOption type="hub">
+            <Obfuscate>Hub</Obfuscate>
+          </ThemeOption>
+        ) : (
+          ""
+        )}
       </div>
       <div className="optiontitle">
         <Obfuscate>{t("appearance.background")}</Obfuscate>

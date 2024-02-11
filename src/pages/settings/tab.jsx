@@ -4,7 +4,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import BareClient from "@tomphttp/bare-client";
 import { useLocalIcon, useLocalTitle } from "../../settings.jsx";
 import { bareServerURL } from "../../consts.jsx";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 function Tab() {
   const { t } = useTranslation("settings");
@@ -54,7 +54,11 @@ function Tab() {
         }}
         className="optionchoosecircle"
       >
-        <img style={{ pointerEvents: "none" }} src={icon} alt={title} />
+        <img
+          style={{ pointerEvents: "none", width: "32px", height: "32px" }}
+          src={icon}
+          alt={title}
+        />
       </div>
     );
   }

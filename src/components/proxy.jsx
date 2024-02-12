@@ -1,13 +1,13 @@
 import { bareServerURL } from "../consts.jsx";
 import { useLocalWindow } from "../settings.jsx";
-import React, { useEffect,useState } from "react";
-import Snackbar from '@mui/material/Snackbar';
+import React, { useEffect, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
 import PublicIcon from "@mui/icons-material/Public";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
-import LinkIcon from '@mui/icons-material/Link';
-import AddIcon from '@mui/icons-material/Add';
-import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import LinkIcon from "@mui/icons-material/Link";
+import AddIcon from "@mui/icons-material/Add";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import CloseIcon from "@mui/icons-material/Close";
 import { getWindowLocation } from "../util.jsx";
@@ -50,8 +50,8 @@ function BareIcon({ src, ...attributes }) {
 }
 
 function KeepIcon({ src, ...attributes }) {
-    // eslint-disable-next-line jsx-a11y/alt-text
-    return <img src={src} {...attributes} />;
+  // eslint-disable-next-line jsx-a11y/alt-text
+  return <img src={src} {...attributes} />;
 }
 
 var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
@@ -61,7 +61,7 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -132,10 +132,11 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
           className="controlsButton"
           onClick={() => {
             try {
-              navigator.clipboard.writeText(config.url)
+              navigator.clipboard
+                .writeText(web.current.contentWindow.location.href)
                 .then(function () {
                   setOpen(true);
-                })
+                });
             } catch (err) {
               //
             }
@@ -143,11 +144,11 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
         >
           <LinkIcon />
           <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          open={open}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            open={open}
             autoHideDuration={3000}
             onClose={handleClose}
             message="链接已复制到剪贴板"
@@ -157,7 +158,10 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
           className="controlsButton"
           onClick={() => {
             try {
-              web.current.contentWindow.window.open("/","_blank");
+              web.current.contentWindow.window.open(
+                window.location.origin,
+                "_blank"
+              );
             } catch (err) {
               //
             }
@@ -213,12 +217,12 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
           <CloseIcon />
         </div>
       </div>
-      
+
       <iframe
         onLoad={async () => {
           var updatedConfig = {
             url: config.url,
-            keepicon: config.keepicon
+            keepicon: config.keepicon,
           };
 
           updatedConfig.title =
@@ -230,18 +234,18 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
           );
 
           if (!config.keepicon) {
-          updatedConfig.icon = await workingIcon(
-            bare,
-            [
-              icon && icon.href,
-              new URL(
-                "/favicon.ico",
-                web.current.contentWindow.document.baseURI
-              ).toString(),
-            ].filter(Boolean)
-          );
+            updatedConfig.icon = await workingIcon(
+              bare,
+              [
+                icon && icon.href,
+                new URL(
+                  "/favicon.ico",
+                  web.current.contentWindow.document.baseURI
+                ).toString(),
+              ].filter(Boolean)
+            );
           } else {
-            updatedConfig.icon = config.icon
+            updatedConfig.icon = config.icon;
           }
 
           setConfig(updatedConfig);

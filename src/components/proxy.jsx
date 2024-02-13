@@ -145,11 +145,11 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
           <LinkIcon />
           <Snackbar
             anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
+              vertical: "top",
+              horizontal: "center",
             }}
             open={open}
-            autoHideDuration={3000}
+            autoHideDuration={2000}
             onClose={handleClose}
             message="链接已复制到剪贴板"
           />
@@ -158,10 +158,7 @@ var Proxy = React.forwardRef(({ overrideWindow }, ref) => {
           className="controlsButton"
           onClick={() => {
             try {
-              web.current.contentWindow.window.open(
-                window.location.origin,
-                "_blank"
-              );
+              window.open(window.location.origin, "_blank");
             } catch (err) {
               //
             }
